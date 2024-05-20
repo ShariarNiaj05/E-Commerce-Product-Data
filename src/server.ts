@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 import app from "./app";
+import config from "./config";
 
 async function main() {
-  const port = 5000;
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-  });
   try {
-    await mongoose.connect(
-      "mongodb+srv://e-com-product-data:qWM5JXiKrvC0SKy1@cluster0.qiowubl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    );
+    const port = 3000; //config.port ||
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}`);
+    });
+
+    await mongoose.connect(config.db_url as string);
     console.log("MongoDB Connection  buildup has been successful");
-  } catch (error) {
-    console.log("Failed to buildup MongoDB Connection");
+  } catch (err) {
+    console.log("Failed to buildup MongoDB Connection", err);
   }
 }
 
