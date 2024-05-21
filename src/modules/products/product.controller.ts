@@ -26,8 +26,21 @@ const createProduct = async (req: Request, res: Response) => {
 
 // get product list from the DB
 const getProduct = async (req: Request, res: Response) => {
+  let result;
   try {
-    const result = await ProductServices.getProductFromDb();
+    const { searchTerm } = req.query;
+    if (searchTerm) {
+      const searchQuery = {
+        $or: [
+          { name: { $regex: searchTerm, $options: "i" } },
+          { description: { $regex: searchTerm, $options: "i" } },
+          { tags: { $regex: searchTerm, $options: "i" } },
+        ],
+      };
+      result = await ProductServices.getProductFromDb(searchQuery);
+    } else {
+      result = await ProductServices.getProductFromDb();
+    }
     console.log(result);
     res.status(200).json({
       success: true,
