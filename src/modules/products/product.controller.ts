@@ -47,9 +47,9 @@ const getProduct = async (req: Request, res: Response) => {
 // get product by id
 const getProductById = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await ProductServices.getProductByIdFromDB(id);
-    console.log(id);
+    const { productId } = req.params;
+    const result = await ProductServices.getProductByIdFromDB(productId);
+    console.log(productId);
     res.status(200).json({
       success: true,
       message: "Product fetched successfully!",
@@ -65,8 +65,39 @@ const getProductById = async (req: Request, res: Response) => {
   }
 };
 
+// update product by id
+const updateProductById = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const body = req.body;
+    const result = await ProductServices.updateProductByIdFromDB(
+      productId,
+      body
+    );
+
+    console.log(result);
+    if (!result) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to update product",
+      error: error,
+    });
+  }
+};
+
 export const ProductController = {
   createProduct,
   getProduct,
   getProductById,
+  updateProductById,
 };
