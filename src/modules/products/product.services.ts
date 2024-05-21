@@ -22,9 +22,16 @@ const updateProductByIdFromDB = async (productId: string, body: TProducts) => {
   return result;
 };
 
+const deleteProductFromDB = async (productId: string) => {
+  const filter = { _id: productId };
+  const result = await Product.deleteOne(filter);
+  return result;
+};
+
 export const ProductServices = {
   createProductIntoDB,
   getProductFromDb,
   getProductByIdFromDB,
   updateProductByIdFromDB,
+  deleteProductFromDB,
 };
