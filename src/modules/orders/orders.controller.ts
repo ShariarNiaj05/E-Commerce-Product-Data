@@ -9,7 +9,12 @@ const createOrder = async (req: Request, res: Response) => {
     // validated data
     const validatedData = orderValidationSchema.parse(body);
     const result = await OrderServices.createOrderIntoDB(validatedData);
-    // console.log("body data", body);
+    // console.log("body data", result);
+
+    // ----------------------
+    // const validatedData = orderValidationSchema.parse(body);
+    // const result = await OrderServices.aggregate;
+    // -------------------
 
     res.status(200).json({
       success: true,

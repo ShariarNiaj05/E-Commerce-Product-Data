@@ -16,9 +16,13 @@ const productValidationSchema = z.object({
   price: z.number({ message: "price is required" }),
   category: z.string({ message: "category is required" }),
   tags: z.array(z.string({ message: "tags is required" })), // // string[];
-  variants: z.array(variantValidationSchema),
+  variants: z.array(variantValidationSchema, {
+    message: "variants is required",
+  }),
   inventory: inventoryValidationSchema,
-}); /* 
+});
+
+/* 
 
 const productValidationSchema = z.object({
   email: z.string({ message: "email is required" }),
