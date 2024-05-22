@@ -8,7 +8,8 @@
     "lint": "npx eslint src",
     "fix": "npx eslint src --fix",
     "build": "tsc",
-    "prod": "node ./dist/server.js",
+    "prod": "nodemon ./dist/server.js",
+    "start": "node ./dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
