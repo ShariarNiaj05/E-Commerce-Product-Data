@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import { ProductRoutes } from "./modules/products/product.route";
 import { OrderRoutes } from "./modules/orders/orders.route";
 const app = express();
@@ -8,6 +8,7 @@ app.use("/api/products", ProductRoutes);
 app.use("/api/orders", OrderRoutes);
 
 app.get("/", (req: Request, res: Response) => {
+  console.log(req);
   res.send("Hello World!!");
 });
 

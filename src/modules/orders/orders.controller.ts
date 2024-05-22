@@ -12,7 +12,7 @@ const createOrder = async (req: Request, res: Response) => {
       message: "Order created successfully!",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error: string | any) {
     console.log(error);
     res.status(500).json({
       success: false,
@@ -46,7 +46,7 @@ const getOrders = async (req: Request, res: Response) => {
       });
     }
     console.log(result);
-  } catch (error: any) {
+  } catch (error: string | any) {
     console.log(error);
     res.status(500).json({
       success: false,
