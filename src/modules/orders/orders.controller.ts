@@ -1,25 +1,42 @@
 import { Request, Response } from "express";
 import { OrderServices } from "./orders.services";
 import orderValidationSchema from "./order.validation";
+import { Product } from "../products/products.model";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const body = req.body;
 
     // validated data
-    const validatedData = orderValidationSchema.parse(body);
-    const result = await OrderServices.createOrderIntoDB(validatedData);
+    // const validatedData = orderValidationSchema.parse(body);
+    // const result = await OrderServices.createOrderIntoDB(validatedData);
     // console.log("body data", result);
 
     // ----------------------
-    // const validatedData = orderValidationSchema.parse(body);
-    // const result = await OrderServices.aggregate;
+    const productId = body.productId;
+    const productDataFromOrderCollection = await Product.aggregate([
+      // stage 1
+      {
+        $lookup: {
+          from: "Products",
+          localField: "productId",
+          foreignField: "_id",
+          as: "productDetails",
+        },
+      },
+    ]);
+
+    const mappedProducts = await productDataFromOrderCollection?.map(
+      (product) => product._id === productId
+    );
+
+    console.log({ mappedProducts }, { productId });
     // -------------------
 
     res.status(200).json({
       success: true,
       message: "Order created successfully!",
-      data: result,
+      data: productDataFromOrderCollection,
     });
   } catch (error: string | any) {
     console.log(error);
